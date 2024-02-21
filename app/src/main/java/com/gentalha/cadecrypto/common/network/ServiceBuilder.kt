@@ -1,6 +1,6 @@
 package com.gentalha.cadecrypto.common.network
 
-import com.gentalha.cadecrypto.common.API_KEY
+import com.gentalha.cadecrypto.common.key.API_KEY
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
