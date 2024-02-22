@@ -2,7 +2,6 @@ package com.gentalha.cadecrypto.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,18 +9,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.gentalha.cadecrypto.R
 import com.gentalha.cadecrypto.presentation.model.ExchangeModel
 import com.gentalha.cadecrypto.ui.theme.BlueGray
@@ -33,7 +33,7 @@ fun ExchangeCard(modifier: Modifier = Modifier, exchange: ExchangeModel) {
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 8.dp)
-            .clickable { println("Cliquei no ${exchange.id}") },
+            .clickable { println("Cliquei no $exchange") },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
@@ -42,11 +42,16 @@ fun ExchangeCard(modifier: Modifier = Modifier, exchange: ExchangeModel) {
                 .background(BlueGray, RoundedCornerShape(8.dp))
                 .align(Alignment.CenterVertically)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.place_holder),
+            AsyncImage(
+                model = exchange.icon,
                 contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .clip(RoundedCornerShape(8.dp))
+                    .size(36.dp),
+                placeholder = painterResource(id = R.drawable.place_holder),
+                contentScale = ContentScale.Inside,
+                error = painterResource(id = R.drawable.place_holder),
             )
         }
         Column(

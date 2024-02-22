@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -64,6 +63,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.navigation)
     implementation(libs.splash.screen)
+    implementation(libs.coil)
 
     //region retrofit
     implementation(libs.retrofit)

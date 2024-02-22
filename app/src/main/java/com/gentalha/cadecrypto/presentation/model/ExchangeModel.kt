@@ -6,11 +6,13 @@ import java.math.BigDecimal
 data class ExchangeModel(
     val name: String,
     val id: String,
-    val volumeDayUsd: BigDecimal
+    val volumeDayUsd: BigDecimal,
+    val icon: String
 )
 
-fun ExchangeResponse.toModel() = ExchangeModel(
+fun ExchangeResponse.toModel(url: String) = ExchangeModel(
     name = this.name ?: "",
     id = this.exchangeId,
-    volumeDayUsd = this.volumeDayUsd
+    volumeDayUsd = this.volumeDayUsd,
+    icon = url
 )

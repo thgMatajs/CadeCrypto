@@ -10,4 +10,8 @@ class CoinRepository @Inject constructor(private val service: CoinApiService) {
         emit(service.getExchanges())
     }
 
+    fun getExchangeIcon() = flow {
+        emit(service.getExchangeLogo())
+    }
+
 }
