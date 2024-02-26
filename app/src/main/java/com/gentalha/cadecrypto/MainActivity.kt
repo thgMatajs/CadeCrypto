@@ -7,30 +7,20 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.gentalha.cadecrypto.presentation.ExchangeViewModel
 import com.gentalha.cadecrypto.presentation.SplashScreenViewModel
+import com.gentalha.cadecrypto.ui.components.SearchTextBar
 import com.gentalha.cadecrypto.ui.screens.ExchangesScreen
-import com.gentalha.cadecrypto.ui.theme.DarkBlue
 import com.gentalha.cadecrypto.ui.theme.CadeCryptoTheme
+import com.gentalha.cadecrypto.ui.theme.DarkBlue
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,31 +50,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(viewModel: ExchangeViewModel) {
+
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Exchanges",
-                        fontFamily = FontFamily.SansSerif,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        color = Color.White,
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DarkBlue
-                ),
-
+            SearchTextBar(
+                onValueChange = { query -> println("THG: $query") },
+                onKeyBoardClickAction = { query -> println("THG: $query") }
             )
         }
     ) {
-        Box(Modifier.padding(it).background(DarkBlue)) {
+        Box(
+            Modifier
+                .padding(it)
+                .background(DarkBlue)
+        ) {
             val uiState by viewModel.uiState.collectAsState()
             ExchangesScreen(uiState = uiState)
         }
