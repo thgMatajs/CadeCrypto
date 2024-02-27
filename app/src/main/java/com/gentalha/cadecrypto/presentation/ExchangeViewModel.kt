@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,17 +39,8 @@ class ExchangeViewModel @Inject constructor(
         currentUiStateJob = viewModelScope.launch {
 
             val exchangesFlow = repository.getExchanges()
-            val iconsFlow = repository.getExchangeIcon()
 
             exchangesFlow
-                .zip(iconsFlow) { exchanges, icons ->
-                    exchanges.map { exchange ->
-                        val icon = icons.firstOrNull { icon ->
-                            icon.exchangeId == exchange.exchangeId
-                        }
-                        exchange.toModel(icon?.url ?: "")
-                    }
-                }
                 .flowOn(Dispatchers.IO)
                 .onStart { _uiState.update { ExchangeUiState.Loading } }
                 .catch { error ->
@@ -63,7 +53,7 @@ class ExchangeViewModel @Inject constructor(
                         if (exchanges.isEmpty())
                             ExchangeUiState.Empty
                         else
-                            ExchangeUiState.Success(exchanges)
+                            ExchangeUiState.Success(exchanges.map { it.toModel() })
                     }
                 }
         }
@@ -84,7 +74,7 @@ class ExchangeViewModel @Inject constructor(
                     if (exchanges.isEmpty()) {
                         _uiState.update { ExchangeUiState.SearchEmpty }
                     } else {
-                        _uiState.update { ExchangeUiState.Success(exchanges.map { it.toModel(it.icon) }) }
+                        _uiState.update { ExchangeUiState.Success(exchanges.map { it.toModel() }) }
                     }
                 }
         }

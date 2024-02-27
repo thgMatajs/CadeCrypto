@@ -10,11 +10,11 @@ data class ExchangeModel(
     var isFavorite: Boolean = false
 )
 
-fun ExchangeEntity.toModel(urlIcon: String) = ExchangeModel(
+fun ExchangeEntity.toModel() = ExchangeModel(
     name = this.name,
     id = this.exchangeId,
     volumeDayUsd = this.volumeDayUsd,
-    icon = urlIcon,
+    icon = this.icon,
     isFavorite = this.isFavorite
 )
 

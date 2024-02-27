@@ -15,13 +15,16 @@ class CoinRepository @Inject constructor(
     fun getExchanges() = flow {
         if (exchangeDao.get().isEmpty()) {
             val exchangesResponse = service.getExchanges()
-            exchangeDao.add(exchangesResponse.map { it.toEntity() })
+            val iconsResponse = service.getExchangeLogo()
+            val exchangeEntities = exchangesResponse.map { exchange ->
+                val icon = iconsResponse.firstOrNull { icon ->
+                    icon.exchangeId == exchange.exchangeId
+                }
+                exchange.toEntity().copy(icon = icon?.url ?: "")
+            }
+            exchangeDao.add(exchangeEntities)
         }
         emit(exchangeDao.get())
-    }
-
-    fun getExchangeIcon() = flow {
-        emit(service.getExchangeLogo())
     }
 
     fun getExchangesBy(id: String) = flow {
