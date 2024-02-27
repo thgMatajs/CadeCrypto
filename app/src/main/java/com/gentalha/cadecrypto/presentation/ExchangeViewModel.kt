@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gentalha.cadecrypto.data.CoinRepository
 import com.gentalha.cadecrypto.presentation.model.ExchangeModel
+import com.gentalha.cadecrypto.presentation.model.toEntity
 import com.gentalha.cadecrypto.presentation.model.toModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
@@ -28,8 +30,6 @@ class ExchangeViewModel @Inject constructor(
         ExchangeUiState.Loading
     )
     val uiState = _uiState.asStateFlow()
-
-    private var exchangesToSearch = listOf<ExchangeModel>()
 
     init {
         fetchExchanges()
@@ -60,8 +60,10 @@ class ExchangeViewModel @Inject constructor(
                 }
                 .collect { exchanges ->
                     _uiState.update {
-                        exchangesToSearch = exchanges
-                        ExchangeUiState.Success(exchanges)
+                        if (exchanges.isEmpty())
+                            ExchangeUiState.Empty
+                        else
+                            ExchangeUiState.Success(exchanges)
                     }
                 }
         }
@@ -78,7 +80,7 @@ class ExchangeViewModel @Inject constructor(
                 .catch { error ->
                     _uiState.update { ExchangeUiState.Failure(error) }
                 }
-                .collect { exchanges ->
+                .collectLatest { exchanges ->
                     if (exchanges.isEmpty()) {
                         _uiState.update { ExchangeUiState.SearchEmpty }
                     } else {
@@ -89,6 +91,15 @@ class ExchangeViewModel @Inject constructor(
     }
 
     fun updateFavorite(exchange: ExchangeModel) {
-        println("THG_LOG -> $exchange")
+        viewModelScope.launch {
+            // TODO: criar UiState para favoritar para mostrar uma snack bar
+            repository.addFavorite(exchange.toEntity()).runCatching {
+                println("THG_update -> runCatching state loading")
+            }.onSuccess {
+                println("THG_update -> onSuccess")
+            }.onFailure {
+                println("THG_update -> onFailure : ${it.message}")
+            }
+        }
     }
 }

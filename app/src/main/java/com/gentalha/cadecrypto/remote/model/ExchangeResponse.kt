@@ -17,5 +17,6 @@ fun ExchangeResponse.toEntity() = ExchangeEntity(
     this.name ?: "",
     this.exchangeId,
     this.volumeDayUsd.toInt(),
-    ""
+    "",
+    isFavorite = false
 )

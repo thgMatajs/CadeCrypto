@@ -1,7 +1,6 @@
 package com.gentalha.cadecrypto.presentation.model
 
 import com.gentalha.cadecrypto.cache.model.ExchangeEntity
-import com.gentalha.cadecrypto.remote.model.ExchangeResponse
 
 data class ExchangeModel(
     val name: String,
@@ -11,16 +10,18 @@ data class ExchangeModel(
     var isFavorite: Boolean = false
 )
 
-fun ExchangeResponse.toModel(url: String) = ExchangeModel(
-    name = this.name ?: "",
-    id = this.exchangeId,
-    volumeDayUsd = this.volumeDayUsd.toInt(),
-    icon = url
-)
-
 fun ExchangeEntity.toModel(urlIcon: String) = ExchangeModel(
     name = this.name,
     id = this.exchangeId,
     volumeDayUsd = this.volumeDayUsd,
-    icon = urlIcon
+    icon = urlIcon,
+    isFavorite = this.isFavorite
+)
+
+fun ExchangeModel.toEntity() = ExchangeEntity(
+    name = this.name,
+    exchangeId = this.id,
+    volumeDayUsd = this.volumeDayUsd,
+    icon = this.icon,
+    isFavorite = this.isFavorite
 )

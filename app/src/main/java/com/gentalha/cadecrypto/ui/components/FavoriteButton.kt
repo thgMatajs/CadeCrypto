@@ -21,8 +21,8 @@ fun FavoriteButton(hasFavorite: Boolean, onClick: (Boolean) -> Unit) {
         mutableStateOf(hasFavorite)
     }
     IconButton(onClick = {
-        onClick(isFavorite)
         isFavorite = !isFavorite
+        onClick(isFavorite)
     }) {
         Icon(
             modifier = Modifier.size(20.dp),

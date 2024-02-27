@@ -6,9 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "exchanges")
 data class ExchangeEntity(
     val name: String,
-    @PrimaryKey
-    val exchangeId: String,
+    @PrimaryKey(autoGenerate = false) val exchangeId: String,
     val volumeDayUsd: Int,
     val icon: String,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean
 )

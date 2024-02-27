@@ -75,8 +75,9 @@ fun ExchangeCard(
                 color = BlueLight
             )
         }
+        println("THG = $exchange")
         FavoriteButton(hasFavorite = exchange.isFavorite) {
-            onFavoriteClick(exchange.apply { isFavorite = it })
+            onFavoriteClick(exchange.copy(isFavorite = it))
         }
     }
 }
