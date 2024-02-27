@@ -1,12 +1,12 @@
 package com.gentalha.cadecrypto.presentation.model
 
+import com.gentalha.cadecrypto.cache.model.ExchangeEntity
 import com.gentalha.cadecrypto.remote.model.ExchangeResponse
-import java.math.BigDecimal
 
 data class ExchangeModel(
     val name: String,
     val id: String,
-    val volumeDayUsd: BigDecimal,
+    val volumeDayUsd: Int,
     val icon: String,
     var isFavorite: Boolean = false
 )
@@ -14,6 +14,13 @@ data class ExchangeModel(
 fun ExchangeResponse.toModel(url: String) = ExchangeModel(
     name = this.name ?: "",
     id = this.exchangeId,
-    volumeDayUsd = this.volumeDayUsd,
+    volumeDayUsd = this.volumeDayUsd.toInt(),
     icon = url
+)
+
+fun ExchangeEntity.toModel(urlIcon: String) = ExchangeModel(
+    name = this.name,
+    id = this.exchangeId,
+    volumeDayUsd = this.volumeDayUsd,
+    icon = urlIcon
 )

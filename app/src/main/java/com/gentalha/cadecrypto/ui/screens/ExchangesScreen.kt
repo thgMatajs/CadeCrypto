@@ -46,6 +46,14 @@ fun ExchangesScreen(
                 )
             }
 
+            ExchangeUiState.SearchEmpty -> {
+                Text(
+                    "Nenhuma Exchange encontrada, tente outras exchanges...",
+                    modifier = Modifier.align(Alignment.Center),
+                    color = BlueLight
+                )
+            }
+
             is ExchangeUiState.Failure -> {
                 Text(
                     "Desculpe, algo deu errado! :(",

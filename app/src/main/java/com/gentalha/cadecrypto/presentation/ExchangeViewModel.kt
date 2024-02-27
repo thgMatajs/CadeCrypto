@@ -1,6 +1,5 @@
 package com.gentalha.cadecrypto.presentation
 
-import androidx.compose.ui.util.fastFilter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gentalha.cadecrypto.data.CoinRepository
@@ -71,17 +70,21 @@ class ExchangeViewModel @Inject constructor(
     fun filterExchangesBy(name: String) {
         currentUiStateJob?.cancel()
         currentUiStateJob = viewModelScope.launch {
-            _uiState.update {
-                ExchangeUiState.Success(
-                    if (name.isBlank()) {
-                        exchangesToSearch
+            repository.getExchangesBy(name)
+                .flowOn(Dispatchers.IO)
+                .onStart {
+                    _uiState.update { ExchangeUiState.Loading }
+                }
+                .catch { error ->
+                    _uiState.update { ExchangeUiState.Failure(error) }
+                }
+                .collect { exchanges ->
+                    if (exchanges.isEmpty()) {
+                        _uiState.update { ExchangeUiState.SearchEmpty }
                     } else {
-                        exchangesToSearch.fastFilter {
-                            it.id.startsWith(name, true)
-                        }
+                        _uiState.update { ExchangeUiState.Success(exchanges.map { it.toModel(it.icon) }) }
                     }
-                )
-            }
+                }
         }
     }
 

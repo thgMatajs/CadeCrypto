@@ -8,6 +8,7 @@ sealed class ExchangeUiState {
 
     data object Empty : ExchangeUiState()
 
+    data object SearchEmpty : ExchangeUiState()
     data class Success(
         val exchanges: List<ExchangeModel> = emptyList()
     ) : ExchangeUiState()
