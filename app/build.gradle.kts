@@ -77,6 +77,12 @@ dependencies {
     ksp(libs.dagger.hilt.compiler)
     //endregion
 
+    //region room
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+    //endregion
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

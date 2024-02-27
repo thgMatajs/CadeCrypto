@@ -17,6 +17,9 @@ okhttp = "5.0.0-alpha.12"
 #Hilt
 hilt = "2.48"
 
+#Room
+room = "2.6.1"
+
 #ksp
 ksp = "1.9.22-1.0.17"
 
@@ -48,6 +51,11 @@ okhttp-log-interceptor = { group = "com.squareup.okhttp3", name = "logging-inter
 # Hilt
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+# Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
