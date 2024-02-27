@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gentalha.cadecrypto.presentation.ExchangeUiState
+import com.gentalha.cadecrypto.presentation.model.ExchangeModel
 import com.gentalha.cadecrypto.ui.components.ExchangeCard
 import com.gentalha.cadecrypto.ui.theme.BlueLight
 import com.gentalha.cadecrypto.ui.theme.DarkBlue
@@ -20,7 +21,8 @@ import com.gentalha.cadecrypto.ui.theme.DarkBlue
 @Composable
 fun ExchangesScreen(
     uiState: ExchangeUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onFavoriteOnClick: (ExchangeModel) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -55,11 +57,13 @@ fun ExchangesScreen(
             is ExchangeUiState.Success -> {
                 LazyColumn {
                     items(uiState.exchanges) { exchange ->
-                        ExchangeCard(exchange = exchange)
+                        ExchangeCard(
+                            exchange = exchange,
+                            onFavoriteClick = onFavoriteOnClick::invoke
+                        )
                     }
                 }
             }
         }
     }
-
 }

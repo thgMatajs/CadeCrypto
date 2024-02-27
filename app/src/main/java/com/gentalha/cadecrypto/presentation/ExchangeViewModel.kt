@@ -1,5 +1,6 @@
 package com.gentalha.cadecrypto.presentation
 
+import androidx.compose.ui.util.fastFilter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gentalha.cadecrypto.data.CoinRepository
@@ -75,12 +76,16 @@ class ExchangeViewModel @Inject constructor(
                     if (name.isBlank()) {
                         exchangesToSearch
                     } else {
-                        exchangesToSearch.filter {
+                        exchangesToSearch.fastFilter {
                             it.id.startsWith(name, true)
                         }
                     }
                 )
             }
         }
+    }
+
+    fun updateFavorite(exchange: ExchangeModel) {
+        println("THG_LOG -> $exchange")
     }
 }

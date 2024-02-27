@@ -7,7 +7,8 @@ data class ExchangeModel(
     val name: String,
     val id: String,
     val volumeDayUsd: BigDecimal,
-    val icon: String
+    val icon: String,
+    var isFavorite: Boolean = false
 )
 
 fun ExchangeResponse.toModel(url: String) = ExchangeModel(

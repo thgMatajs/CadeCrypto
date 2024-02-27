@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +27,11 @@ import com.gentalha.cadecrypto.ui.theme.BlueGray
 import com.gentalha.cadecrypto.ui.theme.BlueLight
 
 @Composable
-fun ExchangeCard(modifier: Modifier = Modifier, exchange: ExchangeModel) {
+fun ExchangeCard(
+    modifier: Modifier = Modifier,
+    exchange: ExchangeModel,
+    onFavoriteClick: (ExchangeModel) -> Unit
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -72,11 +75,8 @@ fun ExchangeCard(modifier: Modifier = Modifier, exchange: ExchangeModel) {
                 color = BlueLight
             )
         }
-        Icon(
-            modifier = Modifier.size(28.dp),
-            painter = painterResource(id = R.drawable.ic_arrow_next),
-            contentDescription = null,
-            tint = Color.White
-        )
+        FavoriteButton(hasFavorite = exchange.isFavorite) {
+            onFavoriteClick(exchange.apply { isFavorite = it })
+        }
     }
 }

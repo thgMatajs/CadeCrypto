@@ -57,7 +57,8 @@ fun App(viewModel: ExchangeViewModel) {
         topBar = {
             SearchTextBar(
                 onValueChange = viewModel::filterExchangesBy,
-                onKeyBoardClickAction = viewModel::filterExchangesBy
+                onKeyBoardClickAction = viewModel::filterExchangesBy,
+                onClearClick = { viewModel.filterExchangesBy("") }
             )
         }
     ) {
@@ -67,7 +68,10 @@ fun App(viewModel: ExchangeViewModel) {
                 .background(DarkBlue)
         ) {
             val uiState by viewModel.uiState.collectAsState()
-            ExchangesScreen(uiState = uiState)
+            ExchangesScreen(
+                uiState = uiState,
+                onFavoriteOnClick = viewModel::updateFavorite
+            )
         }
 
     }

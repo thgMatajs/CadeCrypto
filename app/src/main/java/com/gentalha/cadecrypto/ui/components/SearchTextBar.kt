@@ -43,7 +43,8 @@ import com.gentalha.cadecrypto.ui.theme.DarkBlue
 @Composable
 fun SearchTextBar(
     onValueChange: (String) -> Unit,
-    onKeyBoardClickAction: (String) -> Unit
+    onKeyBoardClickAction: (String) -> Unit,
+    onClearClick: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showText by remember { mutableStateOf(true) }
@@ -62,7 +63,7 @@ fun SearchTextBar(
         modifier = Modifier
             .background(DarkBlue)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.Absolute.Left,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -80,6 +81,7 @@ fun SearchTextBar(
                     focusRequester.requestFocus()
                 } else {
                     query = ""
+                    onClearClick()
                     focusManager.clearFocus()
                 }
 
