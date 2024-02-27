@@ -3,6 +3,7 @@ package com.gentalha.cadecrypto.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gentalha.cadecrypto.data.CoinRepository
+import com.gentalha.cadecrypto.presentation.model.ExchangeModel
 import com.gentalha.cadecrypto.presentation.model.toModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +28,8 @@ class ExchangeViewModel @Inject constructor(
         ExchangeUiState.Loading
     )
     val uiState = _uiState.asStateFlow()
+
+    private var exchangesToSearch = listOf<ExchangeModel>()
 
     init {
         fetchExchanges()
@@ -57,9 +60,27 @@ class ExchangeViewModel @Inject constructor(
                 }
                 .collect { exchanges ->
                     _uiState.update {
+                        exchangesToSearch = exchanges
                         ExchangeUiState.Success(exchanges)
                     }
                 }
+        }
+    }
+
+    fun filterExchangesBy(name: String) {
+        currentUiStateJob?.cancel()
+        currentUiStateJob = viewModelScope.launch {
+            _uiState.update {
+                ExchangeUiState.Success(
+                    if (name.isBlank()) {
+                        exchangesToSearch
+                    } else {
+                        exchangesToSearch.filter {
+                            it.id.startsWith(name, true)
+                        }
+                    }
+                )
+            }
         }
     }
 }

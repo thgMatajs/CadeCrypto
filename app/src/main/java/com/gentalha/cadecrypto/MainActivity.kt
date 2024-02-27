@@ -56,8 +56,8 @@ fun App(viewModel: ExchangeViewModel) {
     Scaffold(
         topBar = {
             SearchTextBar(
-                onValueChange = { query -> println("THG: $query") },
-                onKeyBoardClickAction = { query -> println("THG: $query") }
+                onValueChange = viewModel::filterExchangesBy,
+                onKeyBoardClickAction = viewModel::filterExchangesBy
             )
         }
     ) {
