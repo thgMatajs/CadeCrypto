@@ -40,6 +40,10 @@ import androidx.compose.ui.unit.sp
 import com.gentalha.cadecrypto.ui.theme.BlueGray
 import com.gentalha.cadecrypto.ui.theme.DarkBlue
 
+private const val MAX_QUERY_CHAR = 30
+private const val MIN_WIDTH = 0.13f
+private const val MAX_WIDTH = 1f
+
 @Composable
 fun SearchTextBar(
     onValueChange: (String) -> Unit,
@@ -54,24 +58,24 @@ fun SearchTextBar(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val expandedAnimateValue: Float by animateFloatAsState(
-        if (expanded) 1f else 0.14f,
+        if (expanded) MAX_WIDTH else MIN_WIDTH,
         finishedListener = { value ->
-            showText = (value < 1f)
+            showText = (value < MAX_WIDTH)
         }, label = ""
     )
     Row(
         modifier = Modifier
             .background(DarkBlue)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.Absolute.Left,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = Modifier
-                .height(54.dp)
+                .height(48.dp)
                 .fillMaxWidth(expandedAnimateValue)
-                .background(BlueGray, RoundedCornerShape(999.dp)),
+                .background(BlueGray, RoundedCornerShape(99.dp)),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -106,12 +110,12 @@ fun SearchTextBar(
                 ),
                 cursorBrush = SolidColor(Color.White),
                 onValueChange = {
-                    query = it
+                    if (it.length <= MAX_QUERY_CHAR) query = it
                     onValueChange(query)
                 },
                 textStyle = TextStyle(
                     color = Color.White,
-                    fontSize = 14.sp
+                    fontSize = 16.sp
                 ),
                 modifier = Modifier.focusRequester(focusRequester)
             )
