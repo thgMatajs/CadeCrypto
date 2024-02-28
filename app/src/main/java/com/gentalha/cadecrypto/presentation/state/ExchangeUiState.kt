@@ -1,4 +1,4 @@
-package com.gentalha.cadecrypto.presentation
+package com.gentalha.cadecrypto.presentation.state
 
 import com.gentalha.cadecrypto.presentation.model.ExchangeModel
 

@@ -33,4 +33,8 @@ class CoinRepository @Inject constructor(
 
     suspend fun addFavorite(exchange: ExchangeEntity) = exchangeDao.update(exchange)
 
+    fun getFavorites() = flow {
+        emit(exchangeDao.getFavorites())
+    }
+
 }

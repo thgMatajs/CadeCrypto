@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import com.gentalha.cadecrypto.presentation.SplashScreenViewModel
+import com.gentalha.cadecrypto.presentation.viewmodel.SplashScreenViewModel
 import com.gentalha.cadecrypto.ui.navigation.TabNavigationItem
 import com.gentalha.cadecrypto.ui.tab.favorite.FavoriteTab
 import com.gentalha.cadecrypto.ui.tab.home.HomeTab

@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.gentalha.cadecrypto.presentation.ExchangeViewModel
+import com.gentalha.cadecrypto.presentation.viewmodel.ExchangeViewModel
 import com.gentalha.cadecrypto.ui.components.SearchTextBar
 import com.gentalha.cadecrypto.ui.screens.ExchangesScreen
 

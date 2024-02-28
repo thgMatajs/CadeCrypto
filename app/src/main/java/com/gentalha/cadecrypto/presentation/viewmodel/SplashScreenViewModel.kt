@@ -1,4 +1,4 @@
-package com.gentalha.cadecrypto.presentation
+package com.gentalha.cadecrypto.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
