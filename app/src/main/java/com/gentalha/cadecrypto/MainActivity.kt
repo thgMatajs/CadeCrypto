@@ -7,18 +7,26 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import cafe.adriel.voyager.navigator.tab.CurrentTab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.gentalha.cadecrypto.presentation.ExchangeViewModel
 import com.gentalha.cadecrypto.presentation.SplashScreenViewModel
 import com.gentalha.cadecrypto.ui.components.SearchTextBar
-import com.gentalha.cadecrypto.ui.screens.ExchangesScreen
+import com.gentalha.cadecrypto.ui.navigation.TabNavigationItem
+import com.gentalha.cadecrypto.ui.tab.favorite.FavoriteTab
+import com.gentalha.cadecrypto.ui.tab.home.HomeTab
+import com.gentalha.cadecrypto.ui.theme.BlueGray
 import com.gentalha.cadecrypto.ui.theme.CadeCryptoTheme
 import com.gentalha.cadecrypto.ui.theme.DarkBlue
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,27 +60,40 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(viewModel: ExchangeViewModel) {
-
-    Scaffold(
-        topBar = {
-            SearchTextBar(
-                onValueChange = viewModel::filterExchangesBy,
-                onKeyBoardClickAction = viewModel::filterExchangesBy,
-                onClearClick = { viewModel.filterExchangesBy("") }
-            )
-        }
-    ) {
-        Box(
-            Modifier
-                .padding(it)
-                .background(DarkBlue)
+    val home = HomeTab(viewModel, viewModel::updateFavorite)
+    TabNavigator(home) {
+        Scaffold(
+            topBar = {
+                SearchTextBar(
+                    onValueChange = viewModel::filterExchangesBy,
+                    onKeyBoardClickAction = viewModel::filterExchangesBy,
+                    onClearClick = { viewModel.filterExchangesBy("") }
+                )
+            },
+            bottomBar = {
+                BottomAppBar(
+                    modifier = Modifier
+                        .background(DarkBlue)
+                        .clip(
+                            RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
+                        )
+                        .height(60.dp),
+                    containerColor = BlueGray
+                ) {
+                    TabNavigationItem(tab = home)
+                    TabNavigationItem(tab = FavoriteTab())
+                }
+            }
         ) {
-            val uiState by viewModel.uiState.collectAsState()
-            ExchangesScreen(
-                uiState = uiState,
-                onFavoriteOnClick = viewModel::updateFavorite
-            )
-        }
+            Box(
+                Modifier
+                    .padding(it)
+                    .background(DarkBlue)
+            ) {
+                CurrentTab()
+            }
 
+        }
     }
 }
+
