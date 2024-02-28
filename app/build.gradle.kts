@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.voyager.tabNavigator)
     implementation(libs.voyager.screenModel)
     implementation(libs.voyager.transitions)
+    implementation(libs.voyager.hilt)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

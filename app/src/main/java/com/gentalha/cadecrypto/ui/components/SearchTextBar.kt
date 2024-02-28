@@ -29,6 +29,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -57,6 +58,8 @@ fun SearchTextBar(
     }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val expandedAnimateValue: Float by animateFloatAsState(
         if (expanded) MAX_WIDTH else MIN_WIDTH,
         finishedListener = { value ->
@@ -106,6 +109,7 @@ fun SearchTextBar(
                 keyboardActions = KeyboardActions(
                     onSearch = {
                         onKeyBoardClickAction(query)
+                        keyboardController?.hide()
                     }
                 ),
                 cursorBrush = SolidColor(Color.White),
