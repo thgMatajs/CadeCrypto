@@ -35,7 +35,7 @@ class ExchangeViewModel @Inject constructor(
         fetchExchanges()
     }
 
-    private fun fetchExchanges() {
+    fun fetchExchanges() {
         currentUiStateJob?.cancel()
         currentUiStateJob = viewModelScope.launch {
 

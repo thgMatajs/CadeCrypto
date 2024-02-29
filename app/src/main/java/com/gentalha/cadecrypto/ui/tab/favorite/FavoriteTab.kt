@@ -3,6 +3,7 @@ package com.gentalha.cadecrypto.ui.tab.favorite
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -31,6 +32,10 @@ class FavoriteTab : Tab {
     override fun Content() {
         val viewModel: FavoriteViewModel = getViewModel()
         val uiState by viewModel.uiState.collectAsState()
+
+        LaunchedEffect(Unit) {
+            viewModel.getFavorites()
+        }
         FavoriteScreen(uiState, viewModel::updateFavorite)
     }
 }

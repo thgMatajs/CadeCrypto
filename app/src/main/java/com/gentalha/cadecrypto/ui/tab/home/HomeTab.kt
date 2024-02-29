@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -39,6 +40,11 @@ object HomeTab : Tab {
             modifier = Modifier
                 .fillMaxSize()
         ) {
+
+            LaunchedEffect(Unit) {
+                viewModel.fetchExchanges()
+            }
+
             SearchTextBar(
                 onValueChange = viewModel::filterExchangesBy,
                 onKeyBoardClickAction = viewModel::filterExchangesBy,

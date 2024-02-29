@@ -1,5 +1,6 @@
 package com.gentalha.cadecrypto.ui.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import com.gentalha.cadecrypto.presentation.state.FavoriteUiState
 import com.gentalha.cadecrypto.ui.components.ExchangeCard
 import com.gentalha.cadecrypto.ui.theme.BlueLight
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FavoriteScreen(
     uiState: FavoriteUiState,
@@ -49,9 +51,10 @@ fun FavoriteScreen(
             }
 
             is FavoriteUiState.Success -> {
-                LazyColumn {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(uiState.exchanges, key = { key -> key.id }) { exchange ->
                         ExchangeCard(
+                            modifier = Modifier.animateItemPlacement(),
                             exchange = exchange,
                             onFavoriteClick = onFavoriteOnClick::invoke
                         )

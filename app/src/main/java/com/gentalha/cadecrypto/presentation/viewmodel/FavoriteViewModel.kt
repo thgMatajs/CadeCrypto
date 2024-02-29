@@ -10,7 +10,6 @@ import com.gentalha.cadecrypto.presentation.state.FavoriteUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -35,10 +34,9 @@ class FavoriteViewModel @Inject constructor(
         getFavorites()
     }
 
-   private fun getFavorites() {
+    fun getFavorites() {
         currentUiStateJob?.cancel()
         currentUiStateJob = viewModelScope.launch {
-            delay(2000)
             repository.getFavorites()
                 .flowOn(Dispatchers.IO)
                 .onStart { _uiState.update { FavoriteUiState.Loading } }
@@ -67,6 +65,7 @@ class FavoriteViewModel @Inject constructor(
                 println("THG_update -> runCatching state loading")
             }.onSuccess {
                 println("THG_update -> onSuccess")
+                getFavorites()
             }.onFailure {
                 println("THG_update -> onFailure : ${it.message}")
             }
